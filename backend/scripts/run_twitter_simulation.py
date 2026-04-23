@@ -599,7 +599,7 @@ class TwitterSimulationRunner:
             agent_graph=self.agent_graph,
             platform=wonderwall.DefaultPlatformType.TWITTER,
             database_path=db_path,
-            semaphore=30,  # Limit maximum concurrent LLM requests to prevent API overload
+            semaphore=5,  # Concurrent LLM requests (lowered to 5 due to Alva sandbox proxy instability — see docs/log/known-issues.md)
         )
         
         await self.env.reset()

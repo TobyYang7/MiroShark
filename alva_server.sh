@@ -1,15 +1,40 @@
 #!/bin/bash
-# Start Alva openai-api-wrapper
-# Load the .env file from the project root directory
-# Path: MiroShark/.env (relative to backend/app/config.py)
-project_root_env = os.path.join(os.path.dirname(__file__), '../../.env')
+# Start the Alva openai-api-wrapper server.
+#
+# Loads MiroShark/.env (sibling to this script) so ALVA_API_KEY and any
+# other env vars are available, then execs the wrapper's server.js.
+#
+# The wrapper lives in a sibling worktree by default; override
+# OPENAI_API_WRAPPER_DIR to point at a different checkout on another
+# machine (e.g. /home/forge/mono-meta/local/alva-demos/openai-api).
 
-if os.path.exists(project_root_env):
-    load_dotenv(project_root_env, override=True)
-else:
-    # If no .env in root directory, try loading environment variables (for production)
-    load_dotenv(override=True)
-exec node /Users/yuzheyang/dev/MiroShark/worktrees/openai-wrapper/openai-api/server.js
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+ENV_FILE="${SCRIPT_DIR}/.env"
+if [ -f "$ENV_FILE" ]; then
+  set -a
+  # shellcheck disable=SC1090
+  source "$ENV_FILE"
+  set +a
+fi
+
+DEFAULT_WRAPPER_DIR="${SCRIPT_DIR}/../worktrees/openai-wrapper/openai-api"
+WRAPPER_DIR="${OPENAI_API_WRAPPER_DIR:-$DEFAULT_WRAPPER_DIR}"
+
+if [ ! -f "${WRAPPER_DIR}/server.js" ]; then
+  echo "ERROR: server.js not found at ${WRAPPER_DIR}" >&2
+  echo "Set OPENAI_API_WRAPPER_DIR to the openai-api directory." >&2
+  exit 1
+fi
+
+if [ -z "${ALVA_API_KEY:-}" ]; then
+  echo "ERROR: ALVA_API_KEY not set (expected in ${ENV_FILE} or shell env)." >&2
+  exit 1
+fi
+
+exec node "${WRAPPER_DIR}/server.js"
 
 # ─────────────────────────────────────────────
 # PM2 — manage all services:
@@ -22,7 +47,7 @@ exec node /Users/yuzheyang/dev/MiroShark/worktrees/openai-wrapper/openai-api/ser
 #   pm2 start "npm run dev -- --host" \
 #       --name miroshark-frontend \
 #       --cwd worktrees/miroshark-main/frontend
-
+#
 #   pm2 list              # view status
 #   pm2 logs              # view all logs (real-time)
 #   pm2 logs alva-wrapper # view alva logs only

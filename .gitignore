@@ -69,3 +69,6 @@ backend/uploads/
 
 # Docker data
 data/
+# Local sim run artifacts (test_polymarket scratch dir + ad-hoc events)
+backend/scripts/_test_polymarket/
+backend/events.jsonl
