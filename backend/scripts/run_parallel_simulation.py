@@ -1325,7 +1325,7 @@ async def run_twitter_simulation(
         agent_graph=result.agent_graph,
         platform=wonderwall.DefaultPlatformType.TWITTER,
         database_path=db_path,
-        semaphore=60,  # Concurrent LLM requests per platform (increase for faster APIs)
+        semaphore=5,  # Concurrent LLM requests per platform (increase for faster APIs)
     )
 
     await result.env.reset()
@@ -1633,7 +1633,7 @@ async def run_reddit_simulation(
         agent_graph=result.agent_graph,
         platform=wonderwall.DefaultPlatformType.REDDIT,
         database_path=db_path,
-        semaphore=60,  # Concurrent LLM requests per platform (increase for faster APIs)
+        semaphore=5,  # Concurrent LLM requests per platform (increase for faster APIs)
     )
 
     await result.env.reset()
@@ -2047,7 +2047,7 @@ async def run_polymarket_simulation(
         agent_graph=result.agent_graph,
         simulation=polymarket_simulation,
         database_path=db_path,
-        semaphore=60,
+        semaphore=5,
     )
 
     await result.env.reset()
@@ -2336,7 +2336,7 @@ async def run_synchronized_simulation(
         twitter_result.env = wonderwall.make(
             agent_graph=twitter_result.agent_graph,
             platform=wonderwall.DefaultPlatformType.TWITTER,
-            database_path=twitter_db, semaphore=60,
+            database_path=twitter_db, semaphore=5,
         )
         await twitter_result.env.reset()
         log_info("[Twitter] Environment ready")
@@ -2355,7 +2355,7 @@ async def run_synchronized_simulation(
         reddit_result.env = wonderwall.make(
             agent_graph=reddit_result.agent_graph,
             platform=wonderwall.DefaultPlatformType.REDDIT,
-            database_path=reddit_db, semaphore=60,
+            database_path=reddit_db, semaphore=5,
         )
         await reddit_result.env.reset()
         log_info("[Reddit] Environment ready")
@@ -2374,7 +2374,7 @@ async def run_synchronized_simulation(
             agent_graph=polymarket_result.agent_graph,
             simulation=polymarket_simulation,
             database_path=polymarket_db,
-            semaphore=60,
+            semaphore=5,
         )
         await polymarket_result.env.reset()
         log_info("[Polymarket] Environment ready")
@@ -2906,7 +2906,7 @@ async def main():
             twitter_result.env = wonderwall.make(
                 agent_graph=twitter_result.agent_graph,
                 platform=wonderwall.DefaultPlatformType.TWITTER,
-                database_path=db_path, semaphore=60,
+                database_path=db_path, semaphore=5,
             )
             await twitter_result.env.reset()
             log_manager.info("[Twitter] Environment loaded")
@@ -2922,7 +2922,7 @@ async def main():
             reddit_result.env = wonderwall.make(
                 agent_graph=reddit_result.agent_graph,
                 platform=wonderwall.DefaultPlatformType.REDDIT,
-                database_path=db_path, semaphore=60,
+                database_path=db_path, semaphore=5,
             )
             await reddit_result.env.reset()
             log_manager.info("[Reddit] Environment loaded")

@@ -648,7 +648,7 @@ class RedditSimulationRunner:
             agent_graph=self.agent_graph,
             platform=wonderwall.DefaultPlatformType.REDDIT,
             database_path=db_path,
-            semaphore=60,  # Concurrent LLM requests (increase for faster APIs)
+            semaphore=5,  # Concurrent LLM requests (lowered to 5 due to Alva sandbox proxy instability — see docs/log/known-issues.md)
         )
         
         await self.env.reset()
