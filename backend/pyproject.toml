@@ -13,21 +13,16 @@ dependencies = [
     "flask>=3.0.0",
     "flask-cors>=6.0.0",
     "flask-compress>=1.17",
-
     # LLM related
     "openai>=1.0.0",
-
     # Neo4j
     "neo4j>=5.15.0",
-
     # HTTP requests (for Ollama embedding API)
     "requests>=2.31.0",
-
     # Wonderwall social media simulation (Wonderwall fork)
     # Wonderwall (wonderwall package) is bundled directly in backend/wonderwall/
     # "camel-oasis==0.2.5",  # replaced by bundled Wonderwall
     "camel-ai==0.2.78",
-
     # Wonderwall runtime dependencies (used by recsys, agent_graph, agents_generator)
     # These are hard imports that crash on startup if missing.
     "numpy>=1.26.0",
@@ -36,16 +31,15 @@ dependencies = [
     "torch>=2.0.0",
     "sentence-transformers>=2.2.0",
     "igraph>=0.11.0",
-
     # File processing
     "PyMuPDF>=1.24.0",
     # Encoding detection (supports non-UTF-8 encoded text files)
     "charset-normalizer>=3.0.0",
     "chardet>=5.0.0",
-
     # Utility libraries
     "python-dotenv>=1.0.0",
     "pydantic>=2.0.0",
+    "httpx[socks]>=0.28.1",
 ]
 
 [project.optional-dependencies]
